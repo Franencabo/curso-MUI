@@ -1,12 +1,20 @@
 import React from "react";
 
-import { Button, TextField, Typography } from "@mui/material";
+import {
+  Button,
+  Checkbox,
+  FormControlLabel,
+  FormGroup,
+  TextField,
+  Typography,
+} from "@mui/material";
 
 const Test = () => {
   const [inputs, setInputs] = React.useState({
     name: "",
     email: "",
     password: "",
+    subscribe: false,
   });
 
   const handleChange = (e) => {
@@ -15,12 +23,15 @@ const Test = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    return inputs;
+    console.log(inputs);
   };
 
   return (
     <div>
-      <form>
+      <form
+        onSubmit={handleSubmit}
+        style={{ display: "flex", flexDirection: "column" }}
+      >
         <TextField
           name="name"
           onChange={handleChange}
@@ -49,18 +60,27 @@ const Test = () => {
           variant="filled"
         />
 
-        <Button
-          onSubmit={handleSubmit}
-          sx={{ margin: 3 }}
-          type="submit"
-          variant="contained"
-        >
+        <FormGroup>
+          <FormControlLabel
+            sx={{ margin: 3 }}
+            control={
+              <Checkbox
+                onChange={() =>
+                  setInputs((prev) => ({
+                    ...prev,
+                    subscribe: !inputs.subscribe,
+                  }))
+                }
+              />
+            }
+            label="Subscribe To Newsletter"
+          />
+        </FormGroup>
+
+        <Button sx={{ margin: 3 }} type="submit" variant="contained">
           Submit
         </Button>
       </form>
-      <Typography sx={{ margin: 3 }} variant="h5">
-        {JSON.stringify(inputs)}
-      </Typography>
     </div>
   );
 };
